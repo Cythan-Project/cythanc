@@ -221,30 +221,50 @@ if_0 {
     'end1:no_op
 }
 
-'var_ADD_in1:16
-'var_ADD_in2:16
 'var_ADD_out:16
-'var_ADD_back:16
-'#var_label_continue:'label_continue
-# header VAR_DEF
+'var_SUB_out:16
+'ADD_cb:16
+'var_ADD_in1:0
+'var_ADD_in2:0
+'SUB_cb:16
+'var_SUB_in1:0
+'var_SUB_in2:0
+'#global_continue_1:'continue_1
+
+'fnstart_ADD:no_op
+
+'label_ADD_loop:no_op
+if_0('var_ADD_in1 'label_ADD_endloop)
+dec('var_ADD_in1)
+inc('var_ADD_in2)
+jump('label_ADD_loop)
+'label_ADD_endloop:no_op
+'var_ADD_in2 'var_ADD_out
+'ADD_cb ~+3 ~+2 0 earasable
+'ADD_cb ~+3 ~+2 0 earasable
+'fnstart_SUB:no_op
+
+'label_SUB_loop:no_op
+if_0('var_SUB_in2 'label_SUB_endloop)
+dec('var_SUB_in2)
+dec('var_SUB_in1)
+jump('label_SUB_loop)
+'label_SUB_endloop:no_op
+'var_SUB_in1 'var_SUB_out
+'SUB_cb ~+3 ~+2 0 earasable
+'SUB_cb ~+3 ~+2 0 earasable
 
 7070
 
 'start:no_op
 
-jump('label_start)
-'label_ADD:no_op
-'label_ADD_loop:if_0('var_ADD_in1 'label_ADD_endloop)
-dec('var_ADD_in1)
-inc('var_ADD_in2)
-jump('label_ADD_loop)
-'label_ADD_endloop:'var_ADD_in2 'var_ADD_out
-'var_ADD_back ~+3 ~+2 0 earasable
-'label_start:'#2 'var_ADD_in1
-'#3 'var_ADD_in2
-'#var_label_continue 'var_ADD_back 
-jump('label_ADD)
-'label_continue:exit('var_ADD_out)
-# header CODE
+'#5 'var_SUB_in1
+
+'#3 'var_SUB_in2
+
+'#global_continue_1 'SUB_cb
+jump('fnstart_SUB)
+'continue_1:no_op
+exit('var_SUB_out)
 
 exit('#0)

@@ -1,30 +1,29 @@
-let ADD_in1   0
-let ADD_in2   0
 let ADD_out   0
-let ADD_back  0
+let SUB_out   0
 
-jump 'start
-
-label 'ADD
-
-    no_op
-    
+func ADD a b
     label 'ADD_loop
-        if_0 ADD_in1 'ADD_endloop
-        dec ADD_in1
-        inc ADD_in2
+        if_0 $a 'ADD_endloop
+        dec $a
+        inc $b
         jump 'ADD_loop
     
     label 'ADD_endloop
-        set ADD_out ADD_in2
-        jump_var ADD_back
+        set ADD_out $b
+        ret
+end_func
 
+func SUB a b
+    label 'SUB_loop
+        if_0 $b 'SUB_endloop
+        dec $b
+        dec $a
+        jump 'SUB_loop
+    
+    label 'SUB_endloop
+        set SUB_out $a
+        ret
+end_func
 
-label 'start
-    set ADD_in1 &2
-    set ADD_in2 &3
-    set_lbl ADD_back 'continue
-    jump 'ADD
-
-label 'continue
-    exit ADD_out
+call SUB &5 &3
+exit SUB_out

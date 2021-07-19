@@ -223,6 +223,8 @@ if_0 {
 
 # header VAR_DEF
 
+# header FUNCTION_DEF
+
 7070
 
 'start:no_op
