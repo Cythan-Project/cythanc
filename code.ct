@@ -1,0 +1,30 @@
+let ADD_in1   0
+let ADD_in2   0
+let ADD_out   0
+let ADD_back  0
+
+jump 'start
+
+label 'ADD
+
+    no_op
+    
+    label 'ADD_loop
+        if_0 ADD_in1 'ADD_endloop
+        dec ADD_in1
+        inc ADD_in2
+        jump 'ADD_loop
+    
+    label 'ADD_endloop
+        set ADD_out ADD_in2
+        jump_var ADD_back
+
+
+label 'start
+    set ADD_in1 &2
+    set ADD_in2 &3
+    set_lbl ADD_back 'continue
+    jump 'ADD
+
+label 'continue
+    exit ADD_out
