@@ -29,6 +29,6 @@ function_argument = {literal~((":"~literal)|empty)}
 function_arguments = {(function_argument~(","~function_argument)*)?}
 function = {"fn "~literal~"("~function_arguments~")"~code_block}
 
-extern_function = {"extern "~"fn "~literal~"("~function_arguments~")"~((":"~number)|empty)~";"}
+extern_function = {"extern "~"fn "~literal~"("~function_arguments~")"~";"}
 
-file = _{SOI ~ (extern_function | function)* ~ EOI}
+file = {SOI ~ (extern_function | function)* ~ EOI}
