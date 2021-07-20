@@ -1,0 +1,34 @@
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
+alpha = @{'A'..'Z' | 'a'..'z'  | "_"}
+numeric = @{'0'..'9'}
+alphanumeric = @{alpha | numeric}
+literal = @{alpha ~ alphanumeric*}
+number = @{numeric+}
+empty = {""}
+
+func_args = {(expr ~ (","~expr)*)?}
+func_call = {literal~"("~func_args~")"}
+
+expr = {func_call | literal | number}
+
+test = {"==" | "!="}
+
+boolean_expr = {expr ~ test ~ expr}
+
+i_loop = {"loop"~code_block}
+if_block = {"if"~boolean_expr~code_block~(("else"~code_block)|empty)}
+i_return = {"return"~(expr|empty)~";"}
+i_continue = {"continue"~";"}
+i_break = {"break"~";"}
+i_assign = {literal ~ "=" ~ expr~";"}
+i_expr = {expr~";"}
+instruction = {i_loop| if_block | i_return | i_assign | i_continue | i_break | i_expr}
+code_block = {"{" ~ instruction* ~ "}"}
+
+function_argument = {literal~((":"~literal)|empty)}
+function_arguments = {(function_argument~(","~function_argument)*)?}
+function = {"fn "~literal~"("~function_arguments~")"~code_block}
+
+extern_function = {"extern "~"fn "~literal~"("~function_arguments~")"~((":"~number)|empty)~";"}
+
+file = _{SOI ~ (extern_function | function)* ~ EOI}
