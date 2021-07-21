@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 
-
 #[derive(Debug)]
 pub struct CodeBlock<'a> {
     pub code: Vec<Instruction<'a>>,
@@ -26,7 +25,7 @@ pub enum BooleanTest {
     NotEquals,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Expression<'a> {
     FunctionCall(Cow<'a, str>, Vec<Expression<'a>>),
     Variable(Cow<'a, str>),
@@ -35,9 +34,6 @@ pub enum Expression<'a> {
 
 #[derive(Debug)]
 pub enum FileElement<'a> {
-    Function(Cow<'a, str>,Vec<(Cow<'a, str>, Option<Cow<'a, str>>)>,CodeBlock<'a>),
-    FunctionExtern(
-        Cow<'a, str>,
-        Vec<(Cow<'a, str>, Option<Cow<'a, str>>)>
-    )
+    Function(Cow<'a, str>, Vec<Cow<'a, str>>, CodeBlock<'a>),
+    FunctionExtern(Cow<'a, str>, Vec<Cow<'a, str>>),
 }

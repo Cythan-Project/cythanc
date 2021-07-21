@@ -1,0 +1,30 @@
+let sub_out 0
+func sub a b
+label 'for1
+if_0 $b 'if_true2
+jump 'if_end2
+label 'if_true2
+set sub_out $a
+ret
+label 'if_end2
+dec $b
+dec $a
+label 'for_end1
+end_func
+let add_out 0
+func add a b
+label 'for5
+if_0 $b 'if_true6
+jump 'if_end6
+label 'if_true6
+set add_out $a
+ret
+label 'if_end6
+dec $b
+inc $a
+label 'for_end5
+end_func
+set a &10
+let a 0
+inc a
+exit a

@@ -1,8 +1,7 @@
 use pest::iterators::Pair;
 
-use anyhow::*;
 use crate::*;
-
+use anyhow::*;
 
 pub trait I {
     fn parse<T: ExprInto>(self) -> Result<T>;
@@ -67,18 +66,6 @@ impl ExprInto for BooleanExpression<'_> {
     }
 }
 
-impl ExprInto for (Cow<'_, str>, Option<Cow<'_, str>>) {
-    fn expr_into(pairs: Pair<Rule>) -> Result<Self> {
-        match pairs.as_rule() {
-            Rule::function_argument => {
-                let mut iter = pairs.into_inner();
-                Ok((iter.next().unwrap().parse()?,iter.next().unwrap().parse()?))
-            },
-            e => Err(anyhow!("Invalid rule 3 : {:?}", e)),
-        }
-    }
-}
-
 impl ExprInto for Option<FileElement<'_>> {
     fn expr_into(pairs: Pair<Rule>) -> Result<Self> {
         match pairs.as_rule() {
@@ -89,18 +76,16 @@ impl ExprInto for Option<FileElement<'_>> {
                     iter.next().unwrap().parse()?,
                     iter.next().unwrap().parse()?,
                 )))
-            },
-            Rule::EOI => {
-                Ok(None)
             }
+            Rule::EOI => Ok(None),
             Rule::extern_function => {
                 let mut iter = pairs.into_inner();
                 Ok(Some(FileElement::FunctionExtern(
                     iter.next().unwrap().parse()?,
                     iter.next().unwrap().parse()?,
                 )))
-            },
-            e => Err(anyhow!("Invalid rule 4 : {:?} {}", e,pairs.as_str())),
+            }
+            e => Err(anyhow!("Invalid rule 4 : {:?} {}", e, pairs.as_str())),
         }
     }
 }
@@ -121,9 +106,7 @@ impl ExprInto for BooleanTest {
 impl ExprInto for Instruction<'_> {
     fn expr_into(pairs: Pair<Rule>) -> Result<Self> {
         match pairs.as_rule() {
-            Rule::instruction => {
-                pairs.into_inner().next().unwrap().parse()
-            }
+            Rule::instruction => pairs.into_inner().next().unwrap().parse(),
             Rule::i_expr => Ok(Instruction::Expression(
                 pairs.into_inner().next().unwrap().parse()?,
             )),

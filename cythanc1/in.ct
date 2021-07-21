@@ -1,3 +1,6 @@
+extern fn exit(exit_code);
+extern fn dec(variable);
+extern fn inc(variable);
 
 fn sub(a, b) {
     loop {
@@ -19,16 +22,8 @@ fn add(a, b) {
     }
 }
 
-extern fn exit(exit_code);
-extern fn dec(variable: Var);
-extern fn inc(variable: Var);
-
 fn main() {
     a = 10;
     inc(a);
-    if add(a, 7) == 1 {
-        exit(add(9,a));
-    } else {
-        exit(add(8,a));
-    }
+    exit(a);
 }

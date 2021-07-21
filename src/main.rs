@@ -16,7 +16,7 @@ mod template;
 mod utils;
 
 fn main() {
-    let file = std::fs::read_to_string("code.ct").unwrap();
+    let file = std::fs::read_to_string("in.ct").unwrap();
     let data = std::fs::read_to_string("template.ct")
         .unwrap()
         .replace("\r", "");

@@ -6,9 +6,7 @@ use std::{borrow::Cow, collections::HashMap};
 
 use anyhow::{anyhow, Result};
 
-use pest::{
-    Parser,
-};
+use pest::Parser;
 
 mod parser;
 use parser::*;
@@ -32,6 +30,9 @@ fn main() {
         .unwrap();
     let functions: Vec<Option<FileElement>> = file.parse().unwrap();
     let functions: Vec<FileElement> = functions.into_iter().flatten().collect();
-    println!("{:#?}",functions);
-    println!("Hello, world!");
+    let mut context = CompilationContext::default();
+    functions
+        .iter()
+        .for_each(|x| x.compile(&mut context).unwrap());
+    std::fs::write("out.ct", context.asm_file.join("\n")).unwrap();
 }

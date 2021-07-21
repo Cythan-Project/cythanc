@@ -25,8 +25,7 @@ i_expr = {expr~";"}
 instruction = {i_loop| if_block | i_return | i_assign | i_continue | i_break | i_expr}
 code_block = {"{" ~ instruction* ~ "}"}
 
-function_argument = {literal~((":"~literal)|empty)}
-function_arguments = {(function_argument~(","~function_argument)*)?}
+function_arguments = {(literal~(","~literal)*)?}
 function = {"fn "~literal~"("~function_arguments~")"~code_block}
 
 extern_function = {"extern "~"fn "~literal~"("~function_arguments~")"~";"}
